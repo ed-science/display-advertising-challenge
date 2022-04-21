@@ -61,10 +61,10 @@ class Option(Enum):
 
 
 def train(fname, option, passes, shfl_win):
-    feeder = 'zcat %s | cut -f2 | python ../scripts/shuffle.py %s | ' % (fname, shfl_win)
+    feeder = f'zcat {fname} | cut -f2 | python ../scripts/shuffle.py {shfl_win} | '
     loss = '--loss_function logistic'
     bits =  '-b 27'
-    pass_args = '--passes %s --holdout_off -C -0.4878' % passes
+    pass_args = f'--passes {passes} --holdout_off -C -0.4878'
     features = Option.features(option)
     update = '--adaptive --invariant --power_t 0.5'
     io = '-c --compressed -f log_bin.model -k'
@@ -74,7 +74,8 @@ def train(fname, option, passes, shfl_win):
 
 def test(fname):
     predictions = 'prediction_' + fname.split('.')[0] + '.txt'
-    predictor = 'zcat %s | cut -f2 | %s -t -i log_bin.model -p %s --quiet' % (fname, VW, predictions)
+    predictor = f'zcat {fname} | cut -f2 | {VW} -t -i log_bin.model -p {predictions} --quiet'
+
     subprocess.call(predictor, stdout=sys.stdout, shell=True, executable='/bin/bash')
     
     

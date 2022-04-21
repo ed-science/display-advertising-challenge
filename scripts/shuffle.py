@@ -1,6 +1,7 @@
 '''
 @author: Guocong Song
 '''
+
 import heapq
 import sys
 
@@ -14,7 +15,7 @@ for line in sys.stdin:
         _, out = heapq.heappushpop(heap, (key, line))
         sys.stdout.write(out)
 
-while len(heap) > 0:
+while heap:
     _, out = heapq.heappop(heap)
     sys.stdout.write(out)
         
